@@ -57,7 +57,7 @@ export async function getWeekSummary() {
       .groupBy(goalsCompletedInWeek.completedAtDate)
   )
 
-  const summary = await db
+  const result = await db
     .with(goalsCreatedUpToWeek, goalsCompletedInWeek, goalsCompletedByWeekDay)
     .select({
       completed: sql /*sql*/`
@@ -75,5 +75,5 @@ export async function getWeekSummary() {
       `,
     })
     .from(goalsCompletedByWeekDay)
-  return { summary }
+  return { summary: result[0] }
 }
